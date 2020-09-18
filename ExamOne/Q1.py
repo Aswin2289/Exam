@@ -1,5 +1,3 @@
-
-
 f=open("QNote","r")
 st={}
 dict={}
@@ -9,44 +7,28 @@ for lines in f:
     total=data[4]
     death=data[5]
     recover=data[6]
-    if state not in st:
-        st[state]={"state":state,"total":total,"death":death,"recover":recover}
+    if (state not in st):
+        st[state] = {"confirmed": total, "recovered": recover, "death": death}
+    else:
+        st[state] = {"confirmed": total, "recovered": recover, "death": death}
 def fetchData(**kwargs):
     state=kwargs["state"]
-    dict={}
-    re={}
-    de={}
-    totalconfirm=0
-    totalrecovered=0
-    totaldeath=0
+
     par=kwargs["param"]
-    if state not in st:
+    if kwargs["state"] not in st:
         print("Doesnot exist")
     else:
-        if state not in dict:
-            dict[state] = total
-        else:
-            dict[state] = total
-        for k, v in dict.items():
-            totalconfirm = totalconfirm + int(v)
-        print("Total confirmed Cases in ",state,"is",totalconfirm)
-        if "param" in kwargs:
-            if par=="recovered":
-                if state in re:
-                    re[state]=recover
-                else:
-                    re[state]=recover
-                for k, v in re.items():
-                    totalrecovered = totalrecovered + int(v)
 
-                print("total recovered Cases:",totalrecovered)
-            if par=="death":
-                if state in de:
-                    de[state]=death
-                else:
-                    de[state]=death
-                for k, v in de.items():
-                    totaldeath = totaldeath + int(v)
-                print("Total Death in",state,"is",totaldeath)
+        for k, v in st.items():
+            if k==kwargs["state"]:
+                print("Total confirmed Cases in ",state,"is",v["confirmed"])
+                if "param" in kwargs:
+                    if par=="recovered":
+                        print("total recovered Cases :", v["recovered"])
+                    elif (par == "death"):
+                        print("total death Cases :", v["death"])
+
+
+
 
 fetchData(state="Kerala",param="death")
